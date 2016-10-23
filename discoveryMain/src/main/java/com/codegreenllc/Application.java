@@ -15,20 +15,29 @@ public class Application {
 		AnnotationDB db = new AnnotationDB();
 		db.scanArchives(urls);
 		Set<String> goodPets = db.getAnnotationIndex().get(GoodPet.class.getName());
+		printAnnotatedClasses(goodPets);
+		System.out.println("All annotated classes discovered. Starting to read annotated properties");
+		printAnnotatedClassesWithAttributes(goodPets);
+	}
 
+	private static void printAnnotatedClassesWithAttributes(Set<String> goodPets) throws ClassNotFoundException {
 		for (String klazzName : goodPets) {
-			System.out.println(klazzName);
 			Class<?> klass = Class.forName(klazzName);
 			for (Annotation annotation : klass.getAnnotations()) {
 				System.out.println(annotation.annotationType().getName());
 				if (annotation.annotationType().equals(GoodPet.class)) {
 					GoodPet gp = (GoodPet) annotation;
-					System.out.println(asString(gp.eats()));
-
+					System.out.println(String.format("Found GoodPet annotation in class %s with eats = %s", klazzName,asString(gp.eats())));
 				}
 			}
 		}
+		
+	}
 
+	private static void printAnnotatedClasses(Set<String> goodPets) {
+		for (String klazzName : goodPets) {
+			System.out.println(String.format("Found GoodPet annotation in class %s", klazzName));
+		}
 	}
 
 	private static String asString(String[] eats) {
