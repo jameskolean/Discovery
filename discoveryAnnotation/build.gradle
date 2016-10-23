@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+     mavenCentral()
+     jcenter()
+}
+
+dependencies {
+// https://mvnrepository.com/artifact/net.sf.scannotation/scannotation
+compile group: 'net.sf.scannotation', name: 'scannotation', version: '1.0.2'
+
+    compile 'org.slf4j:slf4j-api:1.7.21'
+
+    testCompile 'junit:junit:4.12'
+}
